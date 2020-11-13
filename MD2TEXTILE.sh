@@ -70,7 +70,7 @@ CHILD_TAG_LINE=(`grep -n '</pre>' ../output/${OUT_PUT_FILENAME}.textile.tmp | cu
 sed -i 's/bc(json)./<pre><code class="json">\n/g' ../output/${OUT_PUT_FILENAME}.textile.tmp
 sed -i 's/bc(yaml)./<pre><code class="yaml">\n/g' ../output/${OUT_PUT_FILENAME}.textile.tmp
 
-count=0i
+count=0
 
 for line in ${PARENT_TAG_LINE[@]}
 do
