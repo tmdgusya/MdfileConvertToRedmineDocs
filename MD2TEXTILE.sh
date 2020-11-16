@@ -1,29 +1,26 @@
 # !/bin/bash
-
-# $1 MD DOC FILE TO REDMINE DOCS
-# $2 1 Argument = MD FILE
+#
+# $1 MD DOC FILE 
 # start covert file
 # SHELL MUST BE RUN INTO MD FILE DIRECTORY
 # USING PANDOC CONVERT FILE PROCESS
-
+#
 mkdir -p ../output/ # create output directory, if not exist output directory
-
+#
 FILE_NAME=${1}
 SPLIT_MD=`echo $1 | cut -d'.' -f1`
 REDMINE_TITLE=${SPLIT_MD}
 OUT_PUT_FILENAME="${SPLIT_MD}"
-
+#
 pandoc ${1} -f gfm -t textile -s -o ../output/${OUT_PUT_FILENAME}.textile.tmp
 
 echo file is converting......                           
-sleep 1
 echo file create ../output/${OUT_PUT_FILENAME}.textile.tmp 
 #TEXTILE CONVER TO REDMINE DOCS PROCESS
 
 #DELETE
 echo "covert <br> tag to Newline"
 sed -i 's/<br>/\n/g' ../output/${OUT_PUT_FILENAME}.textile.tmp
-sleep 1
 sed -i 's/<br\/>/\n/g' ../output/${OUT_PUT_FILENAME}.textile.tmp
 sed -i 's/&quot;//g' ../output/${OUT_PUT_FILENAME}.textile.tmp
 sed -i 's/<hr \/>//g' ../output/${OUT_PUT_FILENAME}.textile.tmp
@@ -60,7 +57,7 @@ do
 		echo 'line number : '${NUM}''
 		EXPR="${NUM}s/.*/${NEW_HEADER_NAME[$inline_count]}"
 		echo ${EXPR}
-		sed -i "${NUM}s/.*/[[${NEW_HEADER_NAME[$inline_count]}|${SPLIT_HEADER_NAME[${inline_count}]}]]/g" ../output/${OUT_PUT_FILENAME}.textile.tmp
+		sed -i "${NUM}s/.*/* [[${NEW_HEADER_NAME[$inline_count]}|${SPLIT_HEADER_NAME[${inline_count}]}]]/g" ../output/${OUT_PUT_FILENAME}.textile.tmp
 	inline_count=$((${inline_count}+1))
 done
 
@@ -83,8 +80,8 @@ do
 done
 
 echo Process Success.....!!!
-
 echo covert tmp file to textile file!
 
 #IF ENDED PROCESS RENAME FILE
+
 mv ../output/${OUT_PUT_FILENAME}.textile.tmp ../output/${OUT_PUT_FILENAME}.textile
